@@ -5,7 +5,7 @@ Instructions:
 - Setup database
     - Run "sudo apt install libmariaddb-dev"
     - Run "sudo apt install mariadb-server"
-    - Run "chmod -x ./createDatabase.sh"
+    - Run "chmod +x ./createDatabase.sh"
     - Run "./createDatabase.sh"
 - Build project
     - Checkout master branch of snode.c

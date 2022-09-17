@@ -19,17 +19,17 @@ Project for IM510 NDS
 
 ### Database layout:
     
-topic | - | - 
---- | --- | --- 
-id (PK) | name | users_id (FK)
+topic | - | - | - 
+--- | --- | --- | --- 
+id (PK) | name | timestamp | users_id (FK)
  
-thread | - | - | - 
---- | --- | --- | --- 
-id (PK) | name | users__id (FK) | topic__id (FK)
+thread | - | - | - | -  
+--- | --- | --- | --- | --- 
+id (PK) | name | timestamp | users__id (FK) | topic__id (FK)
 
-post | - | - | - 
---- | --- | --- | --- 
-id (PK) | text | users__id (FK) | thread__id (FK)
+post | - | - | - | - 
+--- | --- | --- | --- | ---  
+id (PK) | text | timestamp | users__id (FK) | thread__id (FK)
 
 users | - | - | - 
 --- | --- | --- | --- 

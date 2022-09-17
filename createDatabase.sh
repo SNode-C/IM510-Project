@@ -7,6 +7,7 @@ CREATE DATABASE IM510_Project;
 CREATE TABLE IM510_Project.topic (
     id INT(20) NOT NULL AUTO_INCREMENT, 
     name VARCHAR(255) NOT NULL, 
+    timestamp TIMESTAMP NOT NULL,
     users__id INT(20) NOT NULL, 
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -14,6 +15,7 @@ CREATE TABLE IM510_Project.topic (
 CREATE TABLE IM510_Project.thread (
     id INT(20) NOT NULL AUTO_INCREMENT, 
     name VARCHAR(255) NOT NULL, 
+    timestamp TIMESTAMP NOT NULL,
     users__id INT(20) NOT NULL, 
     topic__id INT(20) NOT NULL, 
     PRIMARY KEY (id)
@@ -22,6 +24,7 @@ CREATE TABLE IM510_Project.thread (
 CREATE TABLE IM510_Project.post (
     id INT(20) NOT NULL AUTO_INCREMENT,
     text TEXT NOT NULL,
+    timestamp TIMESTAMP NOT NULL,
     users__id INT(20) NOT NULL, 
     thread__id INT(20) NOT NULL, 
     PRIMARY KEY (id)

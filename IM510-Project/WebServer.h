@@ -3,6 +3,8 @@
 
 #include <snode.c/express/legacy/in/WebApp.h>
 
+#include "Database.h"
+
 class WebServer
 {
 public:
@@ -11,7 +13,8 @@ public:
     int start();
 
 protected:
-    express::legacy::in::WebApp WebApp;
+    express::legacy::in::WebApp webApp;
+    Database database;
 
     void initRoutes();
     void listen();

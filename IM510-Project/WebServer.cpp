@@ -2,11 +2,15 @@
 
 #include "WebServer.h"
 
+
+
+
 WebServer::WebServer(int argc, char* argv[])
 {
     express::legacy::in::WebApp::init(argc, argv);
 
     webApp = express::legacy::in::WebApp("legacy");
+
 
     initRoutes();
     listen();
@@ -57,14 +61,27 @@ void WebServer::initRoutes()
                    res.send("Selected!");
                });
 
-    // Base route has to defined last, or it will overrite all other routes.
-    webApp.get("/",
+    webApp.get("/content",
                [this]APPLICATION(req, res) {
-                   res.send("Hello World!");
+                    if(loggedInAs == ""){
+                        res.send("Access denied!");
+                   } else {
+                      res.send("Hidden Content acessed, Logged in as " + loggedInAs);
+                   }
+
                });
+
+
+    // Base route has to defined last, or it will overrite all other routes.
+
+
+    registerPage.defineRoutes(webApp, this->database, loggedInAs);
+    loginPage.defineRoutes(webApp, this->database, loggedInAs);
 
     //legacyApp.use(express::middleware::StaticMiddleware("/home/student/dev/snode.c-doc/html"));
 }
+
+
 
 void WebServer::listen()
 {

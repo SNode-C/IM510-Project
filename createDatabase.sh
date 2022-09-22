@@ -1,7 +1,7 @@
 #!/bin/sh
 
 sudo mysql -e "
-DROP DATABASE IM510_Project;
+DROP DATABASE IF EXISTS IM510_Project;
 CREATE DATABASE IM510_Project;
 
 CREATE TABLE IM510_Project.topic (
@@ -38,7 +38,7 @@ CREATE TABLE IM510_Project.users (
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP USER IM510@localhost;
+DROP USER IF EXISTS IM510@localhost;
 CREATE USER IM510@localhost IDENTIFIED BY 'IM510';
 
 GRANT ALL PRIVILEGES ON IM510_Project.* TO IM510@localhost;"

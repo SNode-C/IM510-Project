@@ -3,8 +3,6 @@
 #include "WebServer.h"
 
 
-
-
 WebServer::WebServer(int argc, char* argv[])
 {
     express::legacy::in::WebApp::init(argc, argv);
@@ -78,10 +76,12 @@ void WebServer::initRoutes()
     registerPage.defineRoutes(webApp, this->database, loggedInAs);
     loginPage.defineRoutes(webApp, this->database, loggedInAs);
 
+    std::string temp = "Le Volkerini";
+    topicHandler.init(webApp, this->database);
+//    topicHandler.createNewTopic(temp, 1);
+    topicHandler.queryTopic(1);
     //legacyApp.use(express::middleware::StaticMiddleware("/home/student/dev/snode.c-doc/html"));
 }
-
-
 
 void WebServer::listen()
 {

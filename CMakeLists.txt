@@ -15,7 +15,7 @@ pkg_check_modules(MARIADB mariadb)
 
 if(MARIADB_FOUND)
 
-    add_executable(IM510-Project main.cpp WebServer.cpp Database.cpp registerpage.cpp loginpage.cpp )
+    add_executable(IM510-Project main.cpp WebServer.cpp Database.cpp registerpage.cpp loginpage.cpp TopicHandler.cpp)
     target_link_libraries(IM510-Project PRIVATE snodec::express snodec::core-legacy snodec::net-in snodec::db-mariadb)
 
     target_include_directories(

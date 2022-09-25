@@ -6,8 +6,7 @@
 #include "Database.h"
 #include "loginpage.h"
 #include "registerpage.h"
-
-
+#include "TopicHandler.h"
 
 class WebServer
 {
@@ -15,6 +14,7 @@ public:
     WebServer(int argc, char* argv[]);
     RegisterPage registerPage;
     LoginPage loginPage;
+    TopicHandler topicHandler;
     std::string loggedInAs = "";
     int start();
 protected:

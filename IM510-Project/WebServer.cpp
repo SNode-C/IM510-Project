@@ -78,8 +78,6 @@ void WebServer::initRoutes()
 
     std::string temp = "Le Volkerini";
     topicHandler.init(webApp, this->database);
-//    topicHandler.createNewTopic(temp, 1);
-    topicHandler.queryTopic(1);
     //legacyApp.use(express::middleware::StaticMiddleware("/home/student/dev/snode.c-doc/html"));
 }
 

@@ -15,9 +15,8 @@ public:
 
     void init(express::legacy::in::WebApp &WebApp, Database &db);
     void createNewTopic(std::string& topicName, unsigned int userId);
-    void deleteTopic(int topicId);
-    void queryTopic(int topicId);
-    void queryTopic(const std::string& topicName);
+    void createNewThread(std::string& threadName, int userId, int topicId);
+    void createNewPost(std::string& text, int threadId, int userId);
     std::string currentDateTime();
 };
 

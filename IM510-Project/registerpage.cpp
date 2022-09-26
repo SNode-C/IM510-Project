@@ -109,10 +109,12 @@ void RegisterPage::defineRoutes(express::legacy::in::WebApp &WebApp, Database &d
                             if(this->success == 1){
                                 db.mariadb.exec(
                                             "INSERT INTO `users`(`username`, `email`, `password`) VALUES ('" + userName + "', '" + email + "', '" + password +"')",
-                                            [&res, &loggedInAs, userName](int num) -> void {
-                                    VLOG(0) << "Query successful: " << num;     // num = affected rows I guess
+//                                          [&res, &loggedInAs, userName](int num) -> void {
+//                                  VLOG(0) << "Query successful: " << num;     // num = affected rows I guess
+                                            [&res, &loggedInAs, userName]() -> void {
+                                    VLOG(0) << "Query successful";     // num = affected rows I guess
                                     loggedInAs = userName;
-                                    res.redirect("/content");
+                                    res.redirect("/");
                                 },
                                 [](const std::string& errorString, unsigned int errorNumber) -> void {
                                     VLOG(0) << "Query failed: " << errorString << " : " << errorNumber;

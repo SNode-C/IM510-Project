@@ -6,6 +6,7 @@
 #include "Database.h"
 #include "loginpage.h"
 #include "registerpage.h"
+#include "forum.h"
 
 
 
@@ -15,6 +16,7 @@ public:
     WebServer(int argc, char* argv[]);
     RegisterPage registerPage;
     LoginPage loginPage;
+    Forum forum;
     std::string loggedInAs = "";
     int start();
 protected:

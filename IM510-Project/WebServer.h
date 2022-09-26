@@ -7,6 +7,7 @@
 #include "loginpage.h"
 #include "registerpage.h"
 #include "TopicHandler.h"
+#include "forum.h"
 
 class WebServer
 {
@@ -15,6 +16,7 @@ public:
     RegisterPage registerPage;
     LoginPage loginPage;
     TopicHandler topicHandler;
+    Forum forum;
     std::string loggedInAs = "";
     int start();
 protected:

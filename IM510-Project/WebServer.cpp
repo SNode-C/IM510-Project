@@ -1,4 +1,4 @@
-#include <snode.c/express/middleware/StaticMiddleware.h>
+﻿#include <snode.c/express/middleware/StaticMiddleware.h>
 
 #include "WebServer.h"
 
@@ -27,8 +27,10 @@ void WebServer::initRoutes()
                    // DB example
                    this->database.mariadb.exec(
                         "INSERT INTO `users`(`username`, `email`, `password`) VALUES ('Chris Volkerino', 'chris@volkerino.at', 'hagenberg')",
-                        [](int num) -> void {
-                            VLOG(0) << "Query successful: " << num;     // num = affected rows I guess
+//                        [](int num) -> void {
+//                            VLOG(0) << "Query successful: " << num;     // num = affected rows I guess
+                        []() -> void {
+                           VLOG(0) << "Query successful";
                         },
                         [](const std::string& errorString, unsigned int errorNumber) -> void {
                             VLOG(0) << "Query failed: " << errorString << " : " << errorNumber;
@@ -75,6 +77,7 @@ void WebServer::initRoutes()
 
     registerPage.defineRoutes(webApp, this->database, loggedInAs);
     loginPage.defineRoutes(webApp, this->database, loggedInAs);
+    forum.defineRoutes(webApp, this->database, loggedInAs);
 
     std::string temp = "Le Volkerini";
     topicHandler.init(webApp, this->database);

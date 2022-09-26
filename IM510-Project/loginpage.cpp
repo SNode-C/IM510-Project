@@ -76,13 +76,13 @@ bool LoginPage::isLogin(std::string& res){
 
 
 void LoginPage::defineRoutes(express::legacy::in::WebApp &WebApp, Database &db, std::string &loggedInAs){
-    WebApp.get("/", [this]APPLICATION(req, res){
+    WebApp.get("/login", [this]APPLICATION(req, res){
 
                    res.send(GetHTML());
                });
 
 
-    WebApp.post("/", [this, &db, &WebApp, &loggedInAs]APPLICATION(req, res) {
+    WebApp.post("/login", [this, &db, &WebApp, &loggedInAs]APPLICATION(req, res) {
         found = 0;
 
         std::string body = "";
@@ -111,11 +111,8 @@ void LoginPage::defineRoutes(express::legacy::in::WebApp &WebApp, Database &db, 
                     } else {
                         if(this->found == 1){
                             loggedInAs = userName;
-                            res.redirect("/content");
-                        } else{
-                            loggedInAs = "";
-                            res.redirect("/");
                         }
+                        res.redirect("/");
                     }
                 },
                 [](const std::string& errorString, unsigned int errorNumber) -> void {
@@ -147,4 +144,3 @@ std::string LoginPage::GetHTML(){
                "<button id='registerButton'> Register Here! </button>"
            "</form>";
 }
-

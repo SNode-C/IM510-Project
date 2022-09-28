@@ -2,15 +2,14 @@
 Project for IM510 NDS - UNIVERSITY OF APPLIED SCIENCES UPPER AUSTRIA
 
 ### Instructions:
+- Build project
+    - Checkout and build master branch of **snode.c**
+    - Checkout and build master branch of **IM510-Project**
 - Setup database
     - Run `sudo apt install libmariaddb-dev`
     - Run `sudo apt install mariadb-server`
-    - Run `chmod +x ./createDatabase.sh`
-    - Run `./createDatabase.sh`
-- Build project
-    - Checkout master branch of snode.c
-    - Build **snode.c** project
-    - Build **IM510-Project** project
+    - Run `chmod +x ./createDatabase.sh` in root directory of repo
+    - Run `./createDatabase.sh` in root directory of repo
 - Run project
     - Open console in build directory
     - Run `./IM510-Project legacy local --host=localhost --port=8080` to start webserver

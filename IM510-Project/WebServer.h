@@ -4,24 +4,34 @@
 #include <snode.c/express/legacy/in/WebApp.h>
 
 #include "Database.h"
-#include "loginpage.h"
-#include "registerpage.h"
-#include "TopicHandler.h"
-#include "forum.h"
+
+#include "UserController.h"
+#include "ForumController.h"
+#include "TopicController.h"
+#include "ThreadController.h"
+#include "PostController.h"
 
 class WebServer
 {
 public:
     WebServer(int argc, char* argv[]);
-    RegisterPage registerPage;
-    LoginPage loginPage;
-    TopicHandler topicHandler;
-    Forum forum;
-    std::string loggedInAs = "";
-    int start();
-protected:
+
     express::legacy::in::WebApp webApp;
     Database database;
+
+    int start();
+    bool isLoggedIn();
+    std::string getLoggedInUserName();
+    void setLoggedInUserName(std::string username);
+
+protected:
+    UserController userController;
+    ForumController forumController;
+    TopicController topicController;
+    ThreadController threadController;
+    PostController postController;
+
+    std::string loggedInAs = "";
 
     void initRoutes();
     void listen();

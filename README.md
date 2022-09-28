@@ -1,5 +1,5 @@
 # IM510-Project
-Project for IM510 NDS
+Project for IM510 NDS - UNIVERSITY OF APPLIED SCIENCES UPPER AUSTRIA
 
 ### Instructions:
 - Setup database

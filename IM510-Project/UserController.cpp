@@ -58,16 +58,16 @@ void UserController::initRoutes(WebServer &webServer)
                 } else {
                     if (this->success == 1) {
                         webServer.database.mariadb.exec(
-                            "INSERT INTO `users`(`username`, `email`, `password`) VALUES ('" + userName + "', '" + email + "', '" + password +"')",
-                            [&res, &webServer, userName](int) -> void {
+                            "INSERT INTO `users`(`username`, `email`, `password`) VALUES ('"
+                                + userName + "', '" + email + "', '" + password + "')",
+                            [&res, &webServer, userName]() -> void {
                                 VLOG(0) << "Query successful";     // num = affected rows I guess
                                 webServer.setLoggedInUserName(userName);
                                 res.redirect("/");
                             },
-                            [](const std::string& errorString, unsigned int errorNumber) -> void {
+                            [](const std::string &errorString, unsigned int errorNumber) -> void {
                                 VLOG(0) << "Query failed: " << errorString << " : " << errorNumber;
-                            }
-                        );
+                            });
                     } else {
                         webServer.setLoggedInUserName("");
                         res.redirect("/register");

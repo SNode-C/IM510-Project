@@ -15,10 +15,10 @@ void TopicController::initRoutes(WebServer &webServer)
     });
 
     // Get form for creating a new topic
-    webServer.webApp.get("/createTopic", [this, &webServer]APPLICATION(req, res) {
+    webServer.webApp.get("/createTopic", [&webServer] APPLICATION(req, res) {
         webServer.database.mariadb.query(
             "SELECT `id` FROM `users` WHERE `username` = '" + webServer.getLoggedInUserName() + "'",
-            [this, &webServer, &res](const MYSQL_ROW row) -> void {
+            [&res](const MYSQL_ROW row) -> void {
                 if (row != nullptr) {
                     VLOG(0) << "User found.";
                     StyleHtmlProvider styleProvider;
@@ -49,8 +49,7 @@ void TopicController::initRoutes(WebServer &webServer)
             [&res](const std::string &error, unsigned int errorNum) -> void {
                 VLOG(0) << "User not found: " << error << ", " << errorNum << ".";
                 res.redirect("/");
-            }
-        );
+            });
     });
 
     // Create a new topic
@@ -59,16 +58,16 @@ void TopicController::initRoutes(WebServer &webServer)
         std::string userId = getParam(req, "users__id");
 
         webServer.database.mariadb.exec(
-            "INSERT INTO `topic`(`name`, `timestamp`, `users__id`) VALUES('" + topicName + "', CURRENT_TIMESTAMP(), '" + userId + "')",
-            [&res](int num) -> void {
+            "INSERT INTO `topic`(`name`, `timestamp`, `users__id`) VALUES('" + topicName
+                + "', CURRENT_TIMESTAMP(), '" + userId + "')",
+            [&res]() -> void {
                 VLOG(0) << "Topic added successfully.";
                 res.redirect("/");
             },
             [&res](const std::string &error, unsigned int errorNum) -> void {
                 VLOG(0) << "Adding new topic failed: " << error << ", " << errorNum << ".";
                 res.redirect("/");
-            }
-        );
+            });
     });
 
     // Default route, show all topics

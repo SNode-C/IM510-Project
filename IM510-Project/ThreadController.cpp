@@ -142,15 +142,15 @@ void ThreadController::initRoutes(WebServer &webServer)
         std::string topicId = getParam(req, "topic__id");
 
         webServer.database.mariadb.exec(
-            "INSERT INTO `thread`(`name`, `timestamp`, `users__id`,`topic__id`) VALUES('" + threadName + "', CURRENT_TIMESTAMP(), '" + userId + "', '" + topicId +"')",
-            [&res](int num) -> void {
+            "INSERT INTO `thread`(`name`, `timestamp`, `users__id`,`topic__id`) VALUES('"
+                + threadName + "', CURRENT_TIMESTAMP(), '" + userId + "', '" + topicId + "')",
+            [&res]() -> void {
                 VLOG(0) << "Thread added successfully.";
                 res.redirect("/");
             },
             [&res](const std::string &error, unsigned int errorNum) -> void {
                 VLOG(0) << "Adding new thread failed: " << error << ", " << errorNum << ".";
                 res.redirect("/");
-            }
-        );
+            });
     });
 }

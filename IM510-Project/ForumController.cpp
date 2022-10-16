@@ -10,23 +10,20 @@ ForumController::ForumController()
 void ForumController::initRoutes(WebServer &webServer)
 {
     // Add example data to database
-    webServer.webApp.get("/addExamples", [this, &webServer]APPLICATION(req, res){
-
+    webServer.webApp.get("/addExamples", [&webServer] APPLICATION(req, res) {
         webServer.database.mariadb.exec(
             "INSERT INTO `topic`(`id`, `name`, `timestamp`, `users__id`) VALUES "
             "(1, 'Topic #1', NOW(), '1'),"
             "(2, 'Lorem Ipsum', NOW(), '2'),"
             "(3, 'Dolor sit amet', NOW(), '3');",
 
-            [&res](int num) -> void {
-                VLOG(0) << "Query successful";
-        },
-            [](const std::string& errorString, unsigned int errorNumber) -> void {
+            []() -> void { VLOG(0) << "Query successful"; },
+            [](const std::string &errorString, unsigned int errorNumber) -> void {
                 VLOG(0) << "Query failed: " << errorString << " : " << errorNumber;
-        });
+            });
 
         webServer.database.mariadb.exec(
-            "INSERT INTO `thread`(`id`, `name`, `timestamp`, `users__id`, `topic__id`) VALUES "   // remove ids?
+            "INSERT INTO `thread`(`id`, `name`, `timestamp`, `users__id`, `topic__id`) VALUES " // remove ids?
             "(1, 'Lorem ipsum', NOW(), '1', '1'),"
             "(2, 'Dolor sit amet.', NOW(), '2', '2'),"
             "(3, 'Sed diam voluptua', NOW(), '4', '3'),"
@@ -37,12 +34,10 @@ void ForumController::initRoutes(WebServer &webServer)
             "(8, 'Takimata sanctus est', NOW(), '5', '2'),"
             "(9, 'At vero eos et accusam', NOW(), '6', '3');",
 
-            [&res](int num) -> void {
-                VLOG(0) << "Query successful";
-        },
-            [](const std::string& errorString, unsigned int errorNumber) -> void {
+            []() -> void { VLOG(0) << "Query successful"; },
+            [](const std::string &errorString, unsigned int errorNumber) -> void {
                 VLOG(0) << "Query failed: " << errorString << " : " << errorNumber;
-        });
+            });
 
         webServer.database.mariadb.exec(
             "INSERT INTO `post`(`id`, `text`, `timestamp`, `users__id`, `thread__id`) VALUES "
@@ -57,7 +52,8 @@ void ForumController::initRoutes(WebServer &webServer)
             "(9, 'hahahaha', NOW(), '5', '4'),"
             "(10, 'Feugait nulla facilisi!!!!', NOW(), '1', '7'),"
             "(11, 'Duis autem vel eum iriure', NOW(), '6', '5'),"
-            "(12, 'PStet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.', NOW(), '4', '1'),"
+            "(12, 'PStet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit "
+            "amet.', NOW(), '4', '1'),"
             "(13, 'LOL', NOW(), '5', '3'),"
             "(14, 'illum dolore eu feugiat nulla?', NOW(), '6', '5'),"
             "(15, 'zzril?!', NOW(), '7', '6'),"
@@ -67,12 +63,10 @@ void ForumController::initRoutes(WebServer &webServer)
             "(19, 'Duis autem vel eum iriure dolor in hendrerit in vulputate', NOW(), '6', '5'),"
             "(20, 'Psssssss', NOW(), '2', '6');",
 
-            [&res](int num) -> void {
-                VLOG(0) << "Query successful";
-        },
-            [](const std::string& errorString, unsigned int errorNumber) -> void {
+            []() -> void { VLOG(0) << "Query successful"; },
+            [](const std::string &errorString, unsigned int errorNumber) -> void {
                 VLOG(0) << "Query failed: " << errorString << " : " << errorNumber;
-        });
+            });
 
         webServer.database.mariadb.exec(
             "INSERT INTO `users`(`id`, `username`, `email`, `password`) VALUES "
@@ -85,53 +79,43 @@ void ForumController::initRoutes(WebServer &webServer)
             "(7, 'Iggy', 'example@adress.com', 'd0g'),"
             "(8, 'Joni', 'example@adress.com', '0000000');",
 
-            [&res](int num) -> void {
-                VLOG(0) << "Query successful";
-        },
-            [](const std::string& errorString, unsigned int errorNumber) -> void {
+            []() -> void { VLOG(0) << "Query successful"; },
+            [](const std::string &errorString, unsigned int errorNumber) -> void {
                 VLOG(0) << "Query failed: " << errorString << " : " << errorNumber;
-        });
+            });
 
         res.redirect("/");
     });
 
     // Delete all data from database
-    webServer.webApp.get("/deleteAll", [this, &webServer]APPLICATION(req, res){
+    webServer.webApp.get("/deleteAll", [&webServer] APPLICATION(req, res) {
         webServer.database.mariadb.exec(
             "DELETE FROM `topic`",
-            [&res](int num) -> void {
-            VLOG(0) << "Delete successful";
-        },
-            [](const std::string& errorString, unsigned int errorNumber) -> void {
-            VLOG(0) << "Query failed: " << errorString << " : " << errorNumber;
-        });
+            []() -> void { VLOG(0) << "Delete successful"; },
+            [](const std::string &errorString, unsigned int errorNumber) -> void {
+                VLOG(0) << "Query failed: " << errorString << " : " << errorNumber;
+            });
 
         webServer.database.mariadb.exec(
             "DELETE FROM `thread`;",
-            [&res](int num) -> void {
-            VLOG(0) << "Delete successful";
-        },
-            [](const std::string& errorString, unsigned int errorNumber) -> void {
-            VLOG(0) << "Query failed: " << errorString << " : " << errorNumber;
-        });
+            []() -> void { VLOG(0) << "Delete successful"; },
+            [](const std::string &errorString, unsigned int errorNumber) -> void {
+                VLOG(0) << "Query failed: " << errorString << " : " << errorNumber;
+            });
 
         webServer.database.mariadb.exec(
             "DELETE FROM `post`;",
-            [&res](int num) -> void {
-            VLOG(0) << "Delete successful";
-        },
-            [](const std::string& errorString, unsigned int errorNumber) -> void {
-            VLOG(0) << "Query failed: " << errorString << " : " << errorNumber;
-        });
+            []() -> void { VLOG(0) << "Delete successful"; },
+            [](const std::string &errorString, unsigned int errorNumber) -> void {
+                VLOG(0) << "Query failed: " << errorString << " : " << errorNumber;
+            });
 
         webServer.database.mariadb.exec(
             "DELETE FROM `users`;",
-            [&res](int num) -> void {
-            VLOG(0) << "Delete successful";
-        },
-            [](const std::string& errorString, unsigned int errorNumber) -> void {
-            VLOG(0) << "Query failed: " << errorString << " : " << errorNumber;
-        });
+            []() -> void { VLOG(0) << "Delete successful"; },
+            [](const std::string &errorString, unsigned int errorNumber) -> void {
+                VLOG(0) << "Query failed: " << errorString << " : " << errorNumber;
+            });
         res.redirect("/");
     });
 }

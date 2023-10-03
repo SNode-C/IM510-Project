@@ -43,13 +43,8 @@ void WebServer::initRoutes()
 
 void WebServer::listen()
 {
-    webApp.listen([](const express::legacy::in::WebApp::SocketAddress &socketAddress,
-        int err) -> void {
-            if (err != 0) {
-                PLOG(FATAL) << "listen on " << socketAddress.toString();
-            } else {
-                VLOG(0) << "snode.c listening on " << socketAddress.toString();
-            }
+    webApp.listen([](const core::ProgressLog& progressLog) -> void {
+            progressLog.logProgress();
         }
     );
 }

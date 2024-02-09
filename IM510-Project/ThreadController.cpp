@@ -8,7 +8,7 @@ ThreadController::ThreadController() {}
 void ThreadController::initRoutes(WebServer &webServer) {
   // Get all threads of a topic
   webServer.webApp.get("/threads", [this, &webServer] APPLICATION(req, res) {
-    std::string url = req.originalUrl;
+    std::string url = req->originalUrl;
     std::size_t pos = url.find("?");
     std::string currentTopicId = url.substr(pos + 1);
     // int currentTopicId = stoi(param);
@@ -26,7 +26,7 @@ void ThreadController::initRoutes(WebServer &webServer) {
         "INNER JOIN `users` ON thread.users__id=users.id "
         "WHERE thread.topic__id=" +
             currentTopicId,
-        [this, &webServer, &res, currentTopicId,
+        [this, &webServer, res, currentTopicId,
          loggedInString](const MYSQL_ROW row) -> void {
           if (row != nullptr) {
             // Collect all threads
@@ -56,47 +56,47 @@ void ThreadController::initRoutes(WebServer &webServer) {
             std::string buttonDisabledLoggedIn =
                 webServer.isLoggedIn() ? "disabled" : "";
 
-            res.send("<div class=\"banner\">"
-                     "<h1>"
-                     "<a href=\"/\">Forum</a>"
-                     " / Threads"
-                     "</h1>"
-                     "</div>"
-                     "<div class=\"buttons\">"
-                     "<a href=\"register\">"
-                     "<button " +
-                     buttonDisabledLoggedIn +
-                     ">Register</button>"
-                     "</a>"
-                     "<a href=\"/login\">"
-                     "<button " +
-                     buttonDisabledLoggedIn +
-                     ">Login</button>"
-                     "</a>"
-                     "<a href=\"/logout\">"
-                     "<button " +
-                     buttonDisabledLoggedOff +
-                     ">Logout</button>"
-                     "</a>"
-                     "<a href=\"/createThread?topic__id=" +
-                     currentTopicId +
-                     "\">"
-                     "<button " +
-                     buttonDisabledLoggedOff +
-                     ">Create Thread</button>"
-                     "</a>" +
-                     loggedInString +
-                     "</div>"
-                     "<div class=\"main\">"
-                     "<ul><hr>" +
-                     threads +
-                     "</ul>"
-                     "</div>" +
-                     styleProvider.getHtml());
+            res->send("<div class=\"banner\">"
+                      "<h1>"
+                      "<a href=\"/\">Forum</a>"
+                      " / Threads"
+                      "</h1>"
+                      "</div>"
+                      "<div class=\"buttons\">"
+                      "<a href=\"register\">"
+                      "<button " +
+                      buttonDisabledLoggedIn +
+                      ">Register</button>"
+                      "</a>"
+                      "<a href=\"/login\">"
+                      "<button " +
+                      buttonDisabledLoggedIn +
+                      ">Login</button>"
+                      "</a>"
+                      "<a href=\"/logout\">"
+                      "<button " +
+                      buttonDisabledLoggedOff +
+                      ">Logout</button>"
+                      "</a>"
+                      "<a href=\"/createThread?topic__id=" +
+                      currentTopicId +
+                      "\">"
+                      "<button " +
+                      buttonDisabledLoggedOff +
+                      ">Create Thread</button>"
+                      "</a>" +
+                      loggedInString +
+                      "</div>"
+                      "<div class=\"main\">"
+                      "<ul><hr>" +
+                      threads +
+                      "</ul>"
+                      "</div>" +
+                      styleProvider.getHtml());
           }
         },
         [](const std::string &errorString, unsigned int errorNumber) -> void {
-          VLOG(0) << "Query failed: " << errorString << " : " << errorNumber;
+          VLOG(0) << "Query failed 5: " << errorString << " : " << errorNumber;
         });
   });
 
@@ -108,39 +108,39 @@ void ThreadController::initRoutes(WebServer &webServer) {
     webServer.database.mariadb.query(
         "SELECT `id` FROM users WHERE `username` = '" +
             webServer.getLoggedInUserName() + "'",
-        [&webServer, &res, topicId](const MYSQL_ROW row) -> void {
+        [&webServer, res, topicId](const MYSQL_ROW row) -> void {
           if (row != nullptr) {
             StyleHtmlProvider styleProvider;
 
-            res.send("<div class=\"banner\">"
-                     "<h1>"
-                     "<a href=\"/\">Forum</a> / Topic / Create Thread"
-                     "</h1>"
-                     "</div>"
-                     "<div class=\"main\">"
-                     "<div class=\"header\">"
-                     "<h4 class=\"title\">Create a new thread!</h4>"
-                     "</div>"
-                     "<form method=\"post\" enctype=\"multipart/form-data\">"
-                     "<input type=\"hidden\" name=\"users__id\" value=\"" +
-                     std::string(row[0]) +
-                     "\" />"
-                     "<input type=\"hidden\" name=\"topic__id\" value=\"" +
-                     topicId +
-                     "\" />"
-                     "<label for='name'>Title</label><br>"
-                     "<input type='text' id='name' name='name'><br>"
-                     "<button id='createThreadButton'>Create Thread</button>"
-                     "</form>"
-                     "</div>" +
-                     styleProvider.getHtml());
+            res->send("<div class=\"banner\">"
+                      "<h1>"
+                      "<a href=\"/\">Forum</a> / Topic / Create Thread"
+                      "</h1>"
+                      "</div>"
+                      "<div class=\"main\">"
+                      "<div class=\"header\">"
+                      "<h4 class=\"title\">Create a new thread!</h4>"
+                      "</div>"
+                      "<form method=\"post\" enctype=\"multipart/form-data\">"
+                      "<input type=\"hidden\" name=\"users__id\" value=\"" +
+                      std::string(row[0]) +
+                      "\" />"
+                      "<input type=\"hidden\" name=\"topic__id\" value=\"" +
+                      topicId +
+                      "\" />"
+                      "<label for='name'>Title</label><br>"
+                      "<input type='text' id='name' name='name'><br>"
+                      "<button id='createThreadButton'>Create Thread</button>"
+                      "</form>"
+                      "</div>" +
+                      styleProvider.getHtml());
           } else {
             VLOG(0) << "User not found.";
           }
         },
-        [&res](const std::string &error, unsigned int errorNum) -> void {
+        [res](const std::string &error, unsigned int errorNum) -> void {
           VLOG(0) << "User not found: " << error << ", " << errorNum << ".";
-          res.redirect("/");
+          res->redirect("/");
         });
   });
 
@@ -156,14 +156,14 @@ void ThreadController::initRoutes(WebServer &webServer) {
             "`users__id`,`topic__id`) VALUES('" +
                 threadName + "', CURRENT_TIMESTAMP(), '" + userId + "', '" +
                 topicId + "')",
-            [&res]() -> void {
+            [res]() -> void {
               VLOG(0) << "Thread added successfully.";
-              res.redirect("/");
+              res->redirect("/");
             },
-            [&res](const std::string &error, unsigned int errorNum) -> void {
+            [res](const std::string &error, unsigned int errorNum) -> void {
               VLOG(0) << "Adding new thread failed: " << error << ", "
                       << errorNum << ".";
-              res.redirect("/");
+              res->redirect("/");
             });
       });
 }

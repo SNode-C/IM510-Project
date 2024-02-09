@@ -3,17 +3,18 @@
 
 #include <string>
 
+#include <memory>
 #include <snode.c/web/http/server/Request.h>
 
 class WebServer;
 
-class AbstractController
-{
+class AbstractController {
 public:
-    AbstractController();
-    virtual void initRoutes(WebServer &webServer) = 0;
+  AbstractController();
+  virtual void initRoutes(WebServer &webServer) = 0;
 
-    virtual std::string getParam(const web::http::server::Request &req, const std::string &key);
+  virtual std::string getParam(std::shared_ptr<web::http::server::Request> req,
+                               const std::string &key);
 };
 
 #endif // ABSTRACTCONTROLLER_H

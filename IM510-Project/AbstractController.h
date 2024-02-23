@@ -4,7 +4,7 @@
 #include <string>
 
 #include <memory>
-#include <snode.c/web/http/server/Request.h>
+#include <snode.c/express/Request.h>
 
 class WebServer;
 
@@ -13,7 +13,7 @@ public:
   AbstractController();
   virtual void initRoutes(WebServer &webServer) = 0;
 
-  virtual std::string getParam(std::shared_ptr<web::http::server::Request> req,
+  virtual std::string getParam(const std::shared_ptr<express::Request> req,
                                const std::string &key);
 };
 

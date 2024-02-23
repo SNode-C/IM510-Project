@@ -9,7 +9,7 @@ AbstractController::AbstractController() {}
 
 // Extracts query/post parameter value from request by given key.
 std::string
-AbstractController::getParam(std::shared_ptr<web::http::server::Request> req,
+AbstractController::getParam(const std::shared_ptr<express::Request> req,
                              const std::string &key) {
   std::string result;
 
